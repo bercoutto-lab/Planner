@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>уход</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0b0c14;
+    --bg-1:#12131f;
+    --card:#171826;
+    --card-2:#1d1f30;
+    --border:rgba(255,255,255,0.07);
+    --text:#f2ede3;
+    --text-dim:#948fa8;
+    --text-dimmer:#6b6780;
+    --gold:#e2a765;
+    --gold-soft:rgba(226,167,101,0.16);
+    --gold-glow:rgba(226,167,101,0.45);
+    --lav:#a79bef;
+    --lav-soft:rgba(167,155,239,0.14);
+    --lav-glow:rgba(167,155,239,0.45);
+    --sage:#8fcf9e;
+    --accent: var(--gold);
+    --accent-soft: var(--gold-soft);
+    --accent-glow: var(--gold-glow);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    min-height:100dvh;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% -5%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 90% 100%, rgba(255,255,255,0.03), transparent 60%),
+      var(--bg-0);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 48px;
+    transition:background 1.2s ease;
+    overflow-x:hidden;
+  }
+  body.evening{
+    background:
+      radial-gradient(ellipse 60% 40% at 50% -5%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 10% 100%, rgba(255,255,255,0.03), transparent 60%),
+      var(--bg-0);
+  }
+
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.2s ease;}
+  body.evening .stars{opacity:1;}
+  .star{position:absolute;width:2px;height:2px;background:#cfc9f0;border-radius:50%;opacity:.5;animation:twinkle 4s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.75;}}
+
+  .wrap{width:100%;max-width:440px;position:relative;z-index:1;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    text-align:center;
+    padding:38px 10px 18px;
+  }
+  .orb{
+    position:absolute;
+    left:50%;top:38%;
+    width:220px;height:220px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle, var(--accent-glow), transparent 70%);
+    filter:blur(6px);
+    animation:breathe 7s ease-in-out infinite;
+    z-index:-1;
+    transition:background 1.2s ease;
+  }
+  @keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85;}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1;}}
+
+  .badge{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);
+    background:var(--accent-soft);
+    border:1px solid var(--border);
+    padding:6px 14px;border-radius:100px;
+    font-weight:700;
+    transition:color 1.2s ease, background 1.2s ease;
+  }
+  .badge svg{width:14px;height:14px;}
+
+  .date-num{
+    font-family:'Fraunces',serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(72px,24vw,104px);
+    line-height:1;
+    margin:14px 0 2px;
+    letter-spacing:-0.02em;
+    color:var(--text);
+  }
+  .date-sub{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--text-dim);
+    margin-bottom:2px;
+  }
+  .date-week{
+    font-size:14px;
+    color:var(--text-dimmer);
+    letter-spacing:.03em;
+  }
+
+  /* ---------- CARD ---------- */
+  .card{
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:22px 18px 20px;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .card-title{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:600;
+    display:flex;align-items:center;gap:8px;
+  }
+  .card-title .ico{font-size:19px;}
+  .card-note{
+    font-size:12px;
+    color:var(--text-dimmer);
+    text-align:right;
+    max-width:130px;
+    line-height:1.35;
+  }
+
+  .progress-track{
+    height:5px;border-radius:10px;background:rgba(255,255,255,0.06);
+    overflow:hidden;margin-bottom:18px;
+  }
+  .progress-fill{
+    height:100%;border-radius:10px;
+    background:linear-gradient(90deg, var(--accent), var(--sage));
+    width:0%;
+    transition:width .5s ease;
+  }
+
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .step{
+    display:flex;align-items:flex-start;gap:12px;
+    padding:12px 8px 12px 10px;
+    border-radius:14px;
+    position:relative;
+    transition:background .2s ease;
+  }
+  .step:active{background:rgba(255,255,255,0.03);}
+
+  .check{
+    flex:0 0 auto;
+    width:25px;height:25px;
+    border-radius:50%;
+    border:1.6px solid var(--text-dimmer);
+    display:flex;align-items:center;justify-content:center;
+    margin-top:1px;
+    cursor:pointer;
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+    background:transparent;
+  }
+  .check svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:all .2s ease;}
+  .step.done .check{
+    background:var(--sage);
+    border-color:var(--sage);
+    box-shadow:0 0 0 4px rgba(143,207,158,0.14);
+  }
+  .step.done .check svg{opacity:1;transform:scale(1);}
+
+  .step-body{flex:1;min-width:0;cursor:pointer;}
+  .step-text{
+    font-size:15px;
+    line-height:1.4;
+    color:var(--text);
+    transition:color .25s ease, opacity .25s ease;
+    word-break:break-word;
+  }
+  .step-text b{font-weight:700;color:var(--text);}
+  .step.done .step-text{color:var(--text-dimmer);opacity:.65;text-decoration:line-through;text-decoration-color:var(--text-dimmer);text-decoration-thickness:1.5px;}
+
+  .menu-btn{
+    flex:0 0 auto;
+    width:28px;height:28px;
+    border:none;background:transparent;
+    color:var(--text-dimmer);
+    font-size:18px;
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:-2px;
+  }
+  .menu-btn:active{background:rgba(255,255,255,0.06);}
+
+  .popover{
+    position:absolute;right:6px;top:38px;
+    background:#22243a;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:6px;
+    box-shadow:0 12px 30px -8px rgba(0,0,0,0.7);
+    z-index:20;
+    min-width:150px;
+    display:none;
+  }
+  .popover.open{display:block;}
+  .popover button{
+    width:100%;
+    text-align:left;
+    background:none;border:none;
+    color:var(--text);
+    font-size:14px;
+    font-family:'Manrope',sans-serif;
+    padding:9px 10px;
+    border-radius:9px;
+    cursor:pointer;
+  }
+  .popover button:active{background:rgba(255,255,255,0.06);}
+  .popover button.danger{color:#e88b8b;}
+
+  .edit-row{
+    display:flex;gap:8px;padding:6px 8px 12px;align-items:center;
+  }
+  .edit-row input{
+    flex:1;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:9px 11px;
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    font-size:14px;
+    outline:none;
+  }
+  .edit-row input:focus{border-color:var(--accent);}
+  .edit-row button{
+    flex:0 0 auto;
+    border:none;border-radius:10px;
+    padding:9px 13px;
+    font-size:13px;font-weight:700;
+    font-family:'Manrope',sans-serif;
+    cursor:pointer;
+  }
+  .edit-row .save{background:var(--accent);color:#1a1408;}
+  .edit-row .cancel{background:rgba(255,255,255,0.06);color:var(--text-dim);}
+
+  .add-step{
+    margin-top:12px;
+    width:100%;
+    background:rgba(255,255,255,0.03);
+    border:1px dashed var(--border);
+    color:var(--text-dim);
+    border-radius:14px;
+    padding:12px;
+    font-family:'Manrope',sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .add-step:active{background:rgba(255,255,255,0.06);}
+
+  .foot-note{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--text-dimmer);
+    margin-top:16px;
+    line-height:1.5;
+    padding:0 20px;
+  }
+
+  /* ---------- OVERLAY / CELEBRATION ---------- */
+  .overlay{
+    position:fixed;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:100;
+    opacity:0;pointer-events:none;
+    transition:opacity .5s ease;
+    padding:24px;
+  }
+  .overlay.show{opacity:1;}
+  .overlay-card{
+    text-align:center;
+    max-width:340px;
+    transform:scale(.8);
+    transition:transform .55s cubic-bezier(.34,1.56,.64,1);
+  }
+  .overlay.show .overlay-card{transform:scale(1);}
+  .overlay-ico{font-size:34px;margin-bottom:8px;filter:drop-shadow(0 4px 18px rgba(0,0,0,0.6));}
+  .overlay-text{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    font-style:italic;
+    line-height:1.45;
+    color:var(--text);
+    text-shadow:0 2px 6px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.5);
+  }
+
+  .confetti-piece{
+    position:fixed;top:50%;left:50%;
+    width:9px;height:9px;
+    z-index:99;
+    pointer-events:none;
+    border-radius:2px;
+  }
+
+  /* ---------- DAYS DRAWER ---------- */
+  .days-btn{
+    position:fixed;top:18px;right:18px;
+    width:40px;height:40px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:rgba(23,24,38,0.8);
+    backdrop-filter:blur(6px);
+    color:var(--text-dim);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    z-index:60;
+  }
+  .days-btn:active{background:rgba(255,255,255,0.08);}
+  .days-btn svg{width:18px;height:18px;}
+
+  .today-btn{
+    display:none;
+    margin:0 auto 14px;
+    background:var(--gold);
+    color:#241a08;
+    border:none;
+    border-radius:100px;
+    padding:9px 18px;
+    font-family:'Manrope',sans-serif;
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.01em;
+    cursor:pointer;
+    align-items:center;
+    gap:6px;
+    box-shadow:0 8px 20px -6px rgba(226,167,101,0.6);
+  }
+  .today-btn.show{display:inline-flex;}
+  .today-btn:active{transform:scale(.97);}
+
+  .period-toggle{
+    display:none;
+    gap:6px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border);
+    border-radius:100px;
+    padding:4px;
+    margin-bottom:16px;
+  }
+  .period-toggle.show{display:flex;}
+  .period-toggle button{
+    flex:1;
+    border:none;background:transparent;
+    color:var(--text-dim);
+    font-family:'Manrope',sans-serif;
+    font-size:13px;font-weight:700;
+    padding:8px 6px;border-radius:100px;
+    cursor:pointer;
+  }
+  .period-toggle button.active{
+    background:var(--accent);
+    color:#1a1408;
+  }
+
+  .drawer-backdrop{
+    position:fixed;inset:0;
+    background:rgba(6,6,10,0.55);
+    z-index:80;
+    opacity:0;pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .drawer-backdrop.open{opacity:1;pointer-events:auto;}
+
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(300px,84vw);
+    background:linear-gradient(180deg,#191b2c,#141522);
+    border-left:1px solid var(--border);
+    z-index:90;
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.4,0,.2,1);
+    padding:24px 16px;
+    overflow-y:auto;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-weight:600;
+    margin-bottom:16px;
+    padding:0 4px;
+  }
+  .day-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    margin-bottom:4px;
+    border:1px solid transparent;
+  }
+  .day-item:active{background:rgba(255,255,255,0.05);}
+  .day-item.selected{
+    background:var(--accent-soft);
+    border-color:var(--border);
+  }
+  .day-num{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    width:34px;text-align:center;
+    color:var(--text);
+    flex:0 0 auto;
+  }
+  .day-info{flex:1;min-width:0;}
+  .day-name{font-size:13.5px;font-weight:700;color:var(--text);text-transform:capitalize;}
+  .day-today-tag{font-size:10.5px;color:var(--gold);font-weight:700;margin-left:6px;}
+  .day-dots{display:flex;gap:6px;margin-top:4px;}
+  .day-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:rgba(255,255,255,0.12);
+  }
+  .day-dot.done{background:var(--sage);}
+
+  @media (prefers-reduced-motion: reduce){
+    .orb{animation:none;}
+    .star{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<button class="days-btn" id="daysBtn" aria-label="Дни недели">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/>
+  </svg>
+</button>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="orb"></div>
+    <button class="today-btn" id="todayBtn">↺ Вернуться в сегодня</button>
+    <div class="badge" id="badge"></div>
+    <div class="date-num" id="dateNum">28</div>
+    <div class="date-sub" id="dateSub">июля</div>
+    <div class="date-week" id="dateWeek">вторник</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title"><span class="ico" id="cardIco">☀️</span><span id="cardTitle">Утренний уход</span></div>
+      <div class="card-note" id="cardNote"></div>
+    </div>
+    <div class="period-toggle" id="periodToggle">
+      <button data-p="morning" id="ptMorning">☀️ Утро</button>
+      <button data-p="evening" id="ptEvening">🌙 Вечер</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <ul class="steps" id="steps"></ul>
+    <button class="add-step" id="addStepBtn">+ Добавить шаг</button>
+  </div>
+
+  <div class="foot-note">Список меняется автоматически: утренний — до полудня, вечерний — после. Правки через ⋮ сохраняются для всех дней.</div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <div class="overlay-ico">✨</div>
+    <div class="overlay-text" id="overlayText"></div>
+  </div>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">Дни недели</div>
+  <div id="drawerList"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORAGE_KEY_LISTS = "skin-lists-v1";
+
+  var DEFAULT_LISTS = {
+    morning: [
+      {id:"m1", text:"<b>Очищение:</b> Умывалка Амины Пирмановой"},
+      {id:"m2", text:"<b>Тоник:</b> Гидролат «Кофе»"},
+      {id:"m3", text:"<b>Витамин C:</b> Don't Touch My Skin"},
+      {id:"m4", text:"<b>Пептиды:</b> Geltek 5 peptides (лицо/шея) + Bueno (глаза)"},
+      {id:"m5", text:"<b>Питание:</b> Atopalm MLE Cream"},
+      {id:"m6", text:"<b>Защита:</b> LRP Anthelios SPF 50+"}
+    ],
+    eveningWeekday: [
+      {id:"ew1", text:"<b>Очищение:</b> Гидрофилка → Умывалка Амины"},
+      {id:"ew2", text:"<b>Сухость:</b> Ждём 10–15 минут до полного высыхания кожи"},
+      {id:"ew3", text:"<b>Актив:</b> Дифферин 0.1% (горошина на всё лицо)"},
+      {id:"ew4", text:"<b>Доп. уход:</b> Realbarrier PDRN или Beauty of Joseon (по желанию, через 10 мин)"},
+      {id:"ew5", text:"<b>Глаза:</b> Крем Bueno"},
+      {id:"ew6", text:"<b>Закрытие:</b> LRP Toleriane Sensitive Riche"}
+    ],
+    eveningSunday: [
+      {id:"es1", text:"<b>Очищение:</b> Гидрофилка → Effaclar или умывалка Амины"},
+      {id:"es2", text:"<b>Кислота:</b> Med'Adept Лактобионовая кислота 7%"},
+      {id:"es3", text:"<b>Глаза:</b> Крем Bueno"},
+      {id:"es4", text:"<b>Закрытие:</b> LRP Toleriane Sensitive Riche"}
+    ]
+  };
+
+  var MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+  var WEEKDAYS = ["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"];
+
+  var MORNING_MSG = "Ты на свете всех милее,<br>всех прекрасней и белее!";
+  var EVENING_MSG = "Ты стала ещё прекраснее —<br>отдохни на славу!";
+
+  var state = {
+    lists: JSON.parse(JSON.stringify(DEFAULT_LISTS)),
+    checked: [],
+    period: "morning",
+    listKey: "morning",
+    dateKey: "",
+    viewDate: null,      // null = today (auto mode); Date = browsing another day
+    manualPeriod: null,  // "morning" | "evening" — used while browsing
+    isToday: true
+  };
+
+  var openPopoverId = null;
+  var editingId = null;
+  var addingNew = false;
+  var drawerOpen = false;
+
+  function pad(n){ return n<10 ? "0"+n : ""+n; }
+
+  function getDateKey(d){
+    return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  }
+
+  function computePeriodInfo(){
+    var now = new Date();
+    var hour = now.getHours();
+    var period = hour < 12 ? "morning" : "evening";
+    var dow = now.getDay(); // 0 = Sunday
+    var listKey = period === "morning" ? "morning" : (dow === 0 ? "eveningSunday" : "eveningWeekday");
+    return {now:now, period:period, listKey:listKey, dateKey:getDateKey(now), dow:dow, isToday:true};
+  }
+
+  function getEffectiveInfo(){
+    if(state.viewDate === null){
+      return computePeriodInfo();
+    }
+    var d = state.viewDate;
+    var period = state.manualPeriod || "morning";
+    var dow = d.getDay();
+    var listKey = period === "morning" ? "morning" : (dow === 0 ? "eveningSunday" : "eveningWeekday");
+    var dateKey = getDateKey(d);
+    var isToday = dateKey === getDateKey(new Date());
+    return {now:d, period:period, listKey:listKey, dateKey:dateKey, dow:dow, isToday:isToday};
+  }
+
+  function applyThemeVars(period){
+    var root = document.documentElement;
+    document.body.classList.toggle("evening", period === "evening");
+    if(period === "morning"){
+      root.style.setProperty("--accent","var(--gold)");
+      root.style.setProperty("--accent-soft","var(--gold-soft)");
+      root.style.setProperty("--accent-glow","var(--gold-glow)");
+    } else {
+      root.style.setProperty("--accent","var(--lav)");
+      root.style.setProperty("--accent-soft","var(--lav-soft)");
+      root.style.setProperty("--accent-glow","var(--lav-glow)");
+    }
+  }
+
+  function renderHero(info){
+    var d = info.now;
+    document.getElementById("dateNum").textContent = d.getDate();
+    document.getElementById("dateSub").textContent = MONTHS[d.getMonth()];
+    document.getElementById("dateWeek").textContent = WEEKDAYS[info.dow];
+    var badge = document.getElementById("badge");
+    if(info.period === "morning"){
+      badge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> утро';
+    } else {
+      badge.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 1 0 11 11z"/></svg> вечер';
+    }
+
+    var todayBtn = document.getElementById("todayBtn");
+    todayBtn.classList.toggle("show", state.viewDate !== null);
+
+    var toggle = document.getElementById("periodToggle");
+    var browsing = state.viewDate !== null;
+    toggle.classList.toggle("show", browsing);
+    if(browsing){
+      document.getElementById("ptMorning").classList.toggle("active", info.period === "morning");
+      document.getElementById("ptEvening").classList.toggle("active", info.period === "evening");
+    }
+  }
+
+  function renderCardHead(info){
+    var ico = document.getElementById("cardIco");
+    var title = document.getElementById("cardTitle");
+    var note = document.getElementById("cardNote");
+    if(info.listKey === "morning"){
+      ico.textContent = "☀️"; title.textContent = "Утренний уход"; note.textContent = "";
+    } else if(info.listKey === "eveningWeekday"){
+      ico.textContent = "🌙"; title.textContent = "Вечерний уход"; note.textContent = "Пн–Сб · курс Дифферина";
+    } else {
+      ico.textContent = "🌙"; title.textContent = "Вечерний уход"; note.textContent = "Вс · день кислоты, Дифферин отменён";
+    }
+  }
+
+  function currentList(){
+    return state.lists[state.listKey];
+  }
+
+  function currentCheckedKey(){
+    return state.dateKey + ":" + state.period;
+  }
+
+  function loadCheckedForToday(){
+    var key = "checked:" + currentCheckedKey();
+    return window.storage.get(key, false).then(function(res){
+      state.checked = res && res.value ? JSON.parse(res.value) : [];
+    }).catch(function(){ state.checked = []; });
+  }
+
+  function saveChecked(){
+    var key = "checked:" + currentCheckedKey();
+    var val = JSON.stringify(state.checked);
+    return window.storage.set(key, val, false).catch(function(){});
+  }
+
+  function saveLists(){
+    return window.storage.set(STORAGE_KEY_LISTS, JSON.stringify(state.lists), false).catch(function(){});
+  }
+
+  function loadLists(){
+    return window.storage.get(STORAGE_KEY_LISTS, false).then(function(res){
+      if(res && res.value){
+        var parsed = JSON.parse(res.value);
+        if(parsed && parsed.morning && parsed.eveningWeekday && parsed.eveningSunday){
+          state.lists = parsed;
+        }
+      }
+    }).catch(function(){});
+  }
+
+  function closePopovers(){
+    openPopoverId = null;
+    var els = document.querySelectorAll(".popover.open");
+    els.forEach(function(e){ e.classList.remove("open"); });
+  }
+
+  function renderSteps(){
+    var ul = document.getElementById("steps");
+    ul.innerHTML = "";
+    var list = currentList();
+
+    list.forEach(function(item){
+      var li = document.createElement("li");
+      var done = state.checked.indexOf(item.id) !== -1;
+      li.className = "step" + (done ? " done" : "");
+      li.dataset.id = item.id;
+
+      if(editingId === item.id){
+        var editWrap = document.createElement("div");
+        editWrap.className = "edit-row";
+        editWrap.style.width = "100%";
+        editWrap.innerHTML =
+          '<input type="text" id="editInput" value="'+escAttr(stripTags(item.text))+'">' +
+          '<button class="save" data-act="saveEdit">✓</button>' +
+          '<button class="cancel" data-act="cancelEdit">✕</button>';
+        li.appendChild(editWrap);
+        ul.appendChild(li);
+        return;
+      }
+
+      var check = document.createElement("div");
+      check.className = "check";
+      check.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#12131f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      check.addEventListener("click", function(e){ e.stopPropagation(); toggleStep(item.id); });
+
+      var body = document.createElement("div");
+      body.className = "step-body";
+      body.innerHTML = '<div class="step-text">'+item.text+'</div>';
+      body.addEventListener("click", function(){ toggleStep(item.id); });
+
+      var menuBtn = document.createElement("button");
+      menuBtn.className = "menu-btn";
+      menuBtn.textContent = "⋮";
+      menuBtn.addEventListener("click", function(e){
+        e.stopPropagation();
+        var wasOpen = openPopoverId === item.id;
+        closePopovers();
+        if(!wasOpen){
+          openPopoverId = item.id;
+          renderSteps();
+        }
+      });
+
+      li.appendChild(check);
+      li.appendChild(body);
+      li.appendChild(menuBtn);
+
+      if(openPopoverId === item.id){
+        var pop = document.createElement("div");
+        pop.className = "popover open";
+        pop.innerHTML =
+          '<button data-act="edit">Изменить</button>' +
+          '<button class="danger" data-act="delete">Удалить</button>';
+        pop.querySelector('[data-act="edit"]').addEventListener("click", function(e){
+          e.stopPropagation();
+          editingId = item.id;
+          closePopovers();
+          renderSteps();
+          setTimeout(function(){
+            var inp = document.getElementById("editInput");
+            if(inp){ inp.focus(); inp.select(); }
+          }, 30);
+        });
+        pop.querySelector('[data-act="delete"]').addEventListener("click", function(e){
+          e.stopPropagation();
+          deleteStep(item.id);
+        });
+        li.appendChild(pop);
+      }
+
+      ul.appendChild(li);
+    });
+
+    if(addingNew){
+      var li2 = document.createElement("li");
+      li2.className = "step";
+      var editWrap2 = document.createElement("div");
+      editWrap2.className = "edit-row";
+      editWrap2.style.width = "100%";
+      editWrap2.innerHTML =
+        '<input type="text" id="newInput" placeholder="Например: Сыворотка с ниацинамидом">' +
+        '<button class="save" data-act="saveNew">✓</button>' +
+        '<button class="cancel" data-act="cancelNew">✕</button>';
+      li2.appendChild(editWrap2);
+      ul.appendChild(li2);
+    }
+
+    bindEditRowEvents();
+    updateProgress();
+  }
+
+  function bindEditRowEvents(){
+    var saveEdit = document.querySelector('[data-act="saveEdit"]');
+    if(saveEdit){
+      saveEdit.addEventListener("click", function(){
+        var inp = document.getElementById("editInput");
+        var val = inp.value.trim();
+        if(val){
+          var list = currentList();
+          var it = list.find(function(x){ return x.id === editingId; });
+          if(it) it.text = escapeHtml(val);
+          saveLists();
+        }
+        editingId = null;
+        renderSteps();
+      });
+      var inp = document.getElementById("editInput");
+      inp.addEventListener("keydown", function(e){ if(e.key === "Enter") saveEdit.click(); });
+    }
+    var cancelEdit = document.querySelector('[data-act="cancelEdit"]');
+    if(cancelEdit){
+      cancelEdit.addEventListener("click", function(){ editingId = null; renderSteps(); });
+    }
+    var saveNew = document.querySelector('[data-act="saveNew"]');
+    if(saveNew){
+      saveNew.addEventListener("click", function(){
+        var inp = document.getElementById("newInput");
+        var val = inp.value.trim();
+        if(val){
+          var list = currentList();
+          var id = state.listKey + "_" + Date.now();
+          list.push({id:id, text: escapeHtml(val)});
+          saveLists();
+        }
+        addingNew = false;
+        renderSteps();
+      });
+      var inp2 = document.getElementById("newInput");
+      inp2.addEventListener("keydown", function(e){ if(e.key === "Enter") saveNew.click(); });
+    }
+    var cancelNew = document.querySelector('[data-act="cancelNew"]');
+    if(cancelNew){
+      cancelNew.addEventListener("click", function(){ addingNew = false; renderSteps(); });
+    }
+  }
+
+  function stripTags(html){
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  }
+  function escapeHtml(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function escAttr(s){
+    return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function deleteStep(id){
+    var list = currentList();
+    var idx = list.findIndex(function(x){ return x.id === id; });
+    if(idx !== -1){
+      list.splice(idx,1);
+      saveLists();
+    }
+    var ci = state.checked.indexOf(id);
+    if(ci !== -1){ state.checked.splice(ci,1); saveChecked(); }
+    closePopovers();
+    renderSteps();
+  }
+
+  function updateProgress(){
+    var list = currentList();
+    var total = list.length;
+    var done = list.filter(function(it){ return state.checked.indexOf(it.id) !== -1; }).length;
+    var pct = total === 0 ? 0 : Math.round((done/total)*100);
+    document.getElementById("progressFill").style.width = pct + "%";
+  }
+
+  function toggleStep(id){
+    closePopovers();
+    var idx = state.checked.indexOf(id);
+    if(idx === -1){
+      state.checked.push(id);
+    } else {
+      state.checked.splice(idx,1);
+    }
+    saveChecked();
+    renderSteps();
+
+    var list = currentList();
+    var allDone = list.length > 0 && list.every(function(it){ return state.checked.indexOf(it.id) !== -1; });
+    if(allDone && idx === -1){
+      celebrate();
+    }
+  }
+
+  function celebrate(){
+    var overlay = document.getElementById("overlay");
+    var text = document.getElementById("overlayText");
+    text.innerHTML = state.period === "morning" ? MORNING_MSG : EVENING_MSG;
+    overlay.classList.add("show");
+    spawnConfetti();
+    setTimeout(function(){
+      overlay.classList.remove("show");
+    }, 3200);
+  }
+
+  function spawnConfetti(){
+    var colors = ["#e2a765","#a79bef","#8fcf9e","#f2ede3","#cfa8e0","#f0c088"];
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var count = reduced ? 0 : 60;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var originX = vw/2, originY = vh*0.42;
+
+    for(var i=0;i<count;i++){
+      (function(i){
+        var el = document.createElement("div");
+        el.className = "confetti-piece";
+        var color = colors[Math.floor(Math.random()*colors.length)];
+        var isCircle = Math.random() < 0.4;
+        var size = 6 + Math.random()*7;
+        el.style.width = size + "px";
+        el.style.height = (isCircle ? size : size*1.6) + "px";
+        el.style.borderRadius = isCircle ? "50%" : "2px";
+        el.style.background = color;
+        el.style.marginLeft = -(size/2) + "px";
+        el.style.marginTop = -(size/2) + "px";
+
+        var angle = Math.random()*Math.PI*2;
+        var distance = 90 + Math.random()*(Math.min(vw,vh)*0.42);
+        var dx = Math.cos(angle)*distance;
+        var dy = Math.sin(angle)*distance - 40; // slight upward bias
+        var fallExtra = 60 + Math.random()*90; // gravity drop at the end
+        var rotStart = Math.random()*360;
+        var rotEnd = rotStart + (Math.random()<0.5?-1:1)*(360+Math.random()*360);
+        var duration = 900 + Math.random()*700;
+        var delay = Math.random()*120;
+
+        el.style.left = originX + "px";
+        el.style.top = originY + "px";
+        document.body.appendChild(el);
+
+        var anim = el.animate([
+          { transform: "translate(0px,0px) rotate("+rotStart+"deg) scale(1)", opacity: 1, offset:0 },
+          { transform: "translate("+(dx*0.85)+"px,"+(dy*0.85)+"px) rotate("+(rotStart+rotEnd)/2+"deg) scale(1)", opacity: 1, offset:0.55 },
+          { transform: "translate("+dx+"px,"+(dy+fallExtra)+"px) rotate("+rotEnd+"deg) scale(.85)", opacity: 0, offset:1 }
+        ], { duration: duration, delay: delay, easing: "cubic-bezier(.2,.7,.3,1)" });
+        anim.onfinish = function(){ el.remove(); };
+      })(i);
+    }
+  }
+
+  function makeStars(){
+    var wrap = document.getElementById("stars");
+    var n = 34;
+    var html = "";
+    for(var i=0;i<n;i++){
+      var top = Math.random()*100;
+      var left = Math.random()*100;
+      var delay = (Math.random()*4).toFixed(2);
+      var size = (Math.random()*1.6+1).toFixed(1);
+      html += '<div class="star" style="top:'+top+'%;left:'+left+'%;animation-delay:'+delay+'s;width:'+size+'px;height:'+size+'px;"></div>';
+    }
+    wrap.innerHTML = html;
+  }
+
+  function applyInfo(info, forceReload){
+    var periodChanged = info.period !== state.period;
+    var dateChanged = info.dateKey !== state.dateKey;
+    state.period = info.period;
+    state.listKey = info.listKey;
+    state.dateKey = info.dateKey;
+    state.isToday = info.isToday;
+
+    applyThemeVars(info.period);
+    renderHero(info);
+    renderCardHead(info);
+
+    if(forceReload || periodChanged || dateChanged || state.checked === undefined){
+      return loadCheckedForToday().then(renderSteps);
+    }
+    renderSteps();
+    return Promise.resolve();
+  }
+
+  function refreshForNow(){
+    if(state.viewDate !== null) return; // don't override manual browsing
+    applyInfo(computePeriodInfo(), false);
+  }
+
+  function goToday(){
+    state.viewDate = null;
+    state.manualPeriod = null;
+    closeDrawer();
+    applyInfo(computePeriodInfo(), true);
+  }
+
+  function setManualPeriod(p){
+    if(state.viewDate === null) return;
+    state.manualPeriod = p;
+    applyInfo(getEffectiveInfo(), true);
+  }
+
+  function selectDay(d){
+    var todayKey = getDateKey(new Date());
+    var dKey = getDateKey(d);
+    if(dKey === todayKey){
+      goToday();
+      return;
+    }
+    state.viewDate = d;
+    state.manualPeriod = state.manualPeriod || "morning";
+    closeDrawer();
+    applyInfo(getEffectiveInfo(), true);
+  }
+
+  document.getElementById("addStepBtn").addEventListener("click", function(){
+    addingNew = true;
+    editingId = null;
+    closePopovers();
+    renderSteps();
+    setTimeout(function(){
+      var inp = document.getElementById("newInput");
+      if(inp) inp.focus();
+    }, 30);
+  });
+
+  document.addEventListener("click", function(){ if(openPopoverId){ closePopovers(); renderSteps(); } });
+
+  document.getElementById("todayBtn").addEventListener("click", goToday);
+  document.getElementById("ptMorning").addEventListener("click", function(){ setManualPeriod("morning"); });
+  document.getElementById("ptEvening").addEventListener("click", function(){ setManualPeriod("evening"); });
+
+  /* ---------- Days drawer ---------- */
+  var WEEKDAYS_SHORT = ["вс","пн","вт","ср","чт","пт","сб"];
+
+  function getWeekDays(){
+    var today = new Date();
+    var dow = today.getDay();
+    var diffToMonday = dow === 0 ? -6 : 1 - dow;
+    var monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+    monday.setHours(0,0,0,0);
+    var days = [];
+    for(var i=0;i<7;i++){
+      var d = new Date(monday);
+      d.setDate(monday.getDate()+i);
+      days.push(d);
+    }
+    return days;
+  }
+
+  function dayIsFullyDone(dateKey, listKey){
+    var key = "checked:" + dateKey + ":" + (listKey === "morning" ? "morning" : "evening");
+    var listLen = state.lists[listKey].length;
+    return window.storage.get(key, false).then(function(res){
+      if(!res || !res.value) return false;
+      try{
+        var arr = JSON.parse(res.value);
+        return listLen > 0 && arr.length >= listLen;
+      }catch(e){ return false; }
+    }).catch(function(){ return false; });
+  }
+
+  function openDrawer(){
+    drawerOpen = true;
+    document.getElementById("drawer").classList.add("open");
+    document.getElementById("drawerBackdrop").classList.add("open");
+    buildDrawer();
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    document.getElementById("drawer").classList.remove("open");
+    document.getElementById("drawerBackdrop").classList.remove("open");
+  }
+
+  function buildDrawer(){
+    var list = document.getElementById("drawerList");
+    var days = getWeekDays();
+    var todayKey = getDateKey(new Date());
+    var selectedKey = state.viewDate ? getDateKey(state.viewDate) : todayKey;
+
+    list.innerHTML = "";
+    days.forEach(function(d){
+      var dKey = getDateKey(d);
+      var isToday = dKey === todayKey;
+      var eveKey = d.getDay() === 0 ? "eveningSunday" : "eveningWeekday";
+
+      var item = document.createElement("div");
+      item.className = "day-item" + (dKey === selectedKey ? " selected" : "");
+      item.innerHTML =
+        '<div class="day-num">'+d.getDate()+'</div>' +
+        '<div class="day-info">' +
+          '<div class="day-name">'+WEEKDAYS[d.getDay()]+(isToday ? '<span class="day-today-tag">сегодня</span>' : '')+'</div>' +
+          '<div class="day-dots"><span class="day-dot" data-m="1"></span><span class="day-dot" data-e="1"></span></div>' +
+        '</div>';
+      item.addEventListener("click", function(){ selectDay(d); });
+      list.appendChild(item);
+
+      Promise.all([
+        dayIsFullyDone(dKey, "morning"),
+        dayIsFullyDone(dKey, eveKey)
+      ]).then(function(res){
+        var mDot = item.querySelector('[data-m]');
+        var eDot = item.querySelector('[data-e]');
+        if(mDot) mDot.classList.toggle("done", res[0]);
+        if(eDot) eDot.classList.toggle("done", res[1]);
+      });
+    });
+  }
+
+  document.getElementById("daysBtn").addEventListener("click", function(e){
+    e.stopPropagation();
+    openDrawer();
+  });
+  document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
+
+  makeStars();
+
+  loadLists().then(function(){
+    return applyInfo(computePeriodInfo(), true);
+  });
+
+  setInterval(refreshForNow, 60000);
+
+})();
+</script>
+</body>
+</html>
